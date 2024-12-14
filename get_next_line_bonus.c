@@ -63,7 +63,7 @@ static char	*sep_line(char *line)
 	if (line[i] == 0)
 		return (NULL);
 	remainder = ft_substr(line, i + 1, ft_strlen(line) - i);
-	if (!remainder)
+	if (!remainder[0])
 	{
 		free(remainder);
 		return (NULL);
@@ -79,22 +79,15 @@ char	*get_next_line(int fd)
 	char		*buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-	{
-		free(stach[fd]);
-		stach[fd] = NULL;
 		return (NULL);
-	}
 	buffer = (char *)malloc(sizeof(char) * (size_t)BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
 	line = fill_line(fd, buffer, stach[fd]);
-	if (!line)
-	{
-		free(buffer);
-		return (buffer = NULL, NULL);
-	}
-	stach[fd] = sep_line(line);
 	free(buffer);
 	buffer = NULL;
+	if (!line)
+		return (NULL);
+	stach[fd] = sep_line(line);
 	return (line);
 }

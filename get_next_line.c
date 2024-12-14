@@ -63,7 +63,7 @@ static char	*sep_line(char *line)
 	if (line[i] == 0)
 		return (NULL);
 	remainder = ft_substr(line, i + 1, ft_strlen(line) - i);
-	if (!remainder)
+	if (!remainder[0])
 	{
 		free(remainder);
 		return (NULL);
