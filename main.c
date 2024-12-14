@@ -7,9 +7,9 @@ int main(void)
    int fd = open("test.txt", O_RDWR);
    if (fd == -1)
       return (1);
-   while ((line = get_next_line(fd)) != NULL && i < 3)
+   while ((line = get_next_line(fd)) != NULL)
    {
-      printf("%s", line);
+      printf("line %d : %s", ++i,line);
       free(line);
       i++;
    }

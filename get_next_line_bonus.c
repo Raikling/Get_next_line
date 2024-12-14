@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aben-hzz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/14 15:19:20 by aben-hzz          #+#    #+#             */
-/*   Updated: 2024/12/14 15:32:17 by aben-hzz         ###   ########.fr       */
+/*   Created: 2024/12/14 16:06:57 by aben-hzz          #+#    #+#             */
+/*   Updated: 2024/12/14 16:13:17 by aben-hzz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*ft_strchr(const char *str, int c)
 {
@@ -74,26 +74,26 @@ static char	*sep_line(char *line)
 
 char	*get_next_line(int fd)
 {
-	static char	*stach;
+	static char	*stach[1024];
 	char		*line;
 	char		*buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
-		free(stach);
-		stach = NULL;
+		free(stach[fd]);
+		stach[fd] = NULL;
 		return (NULL);
 	}
 	buffer = (char *)malloc(sizeof(char) * (size_t)BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
-	line = fill_line(fd, buffer, stach);
+	line = fill_line(fd, buffer, stach[fd]);
 	if (!line)
 	{
 		free(buffer);
 		return (buffer = NULL, NULL);
 	}
-	stach = sep_line(line);
+	stach[fd] = sep_line(line);
 	free(buffer);
 	buffer = NULL;
 	return (line);
